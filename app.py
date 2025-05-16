@@ -101,7 +101,6 @@ if uploaded_file is not None:
         ax.scatter(y_train, y_train_pred, label=f'Train (R² = {r2_train:.3f})', color='blue', alpha=0.5)
         ax.scatter(y_test, y_test_pred, label=f'Test (R² = {r2_test:.3f})', color='red', alpha=0.5)
         ax.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', label='Perfect Fit')
-        # Add regression lines
         z_train = np.polyfit(y_train, y_train_pred, 1)
         p_train = np.poly1d(z_train)
         ax.plot(y_train, p_train(y_train), color='blue', linestyle='-', label='Train Fit')
@@ -328,11 +327,11 @@ if uploaded_file is not None:
         plt.close(fig2)
     
     elif selected_analysis == "SHAP Analysis":
-        st.subheader("SHAP Analysis (Using Random Forest)")
-        rf = RandomForestRegressor(random_state=42)
-        rf.fit(X_train, y_train)
+        st.subheader("SHAP Analysis (Using XGBoost)")
+        xgb = XGBRegressor(random_state=42)
+        xgb.fit(X_train, y_train)
         
-        explainer = shap.TreeExplainer(rf)
+        explainer = shap.TreeExplainer(xgb)
         shap_values = explainer.shap_values(X_test)
         
         st.write(f"Shape of X_test: {X_test.shape}")
