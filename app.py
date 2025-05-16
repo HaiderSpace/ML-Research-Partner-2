@@ -343,10 +343,11 @@ if uploaded_file is not None:
         st.markdown(get_image_download_link(fig, "shap_summary"), unsafe_allow_html=True)
         plt.close(fig)
         
-        fig2 = plt.figure(figsize=(20, 4))
-        shap.force_plot(explainer.expected_value, shap_values[0,:], X_test.iloc[0,:], matplotlib=True, show=False, figsize=(20, 4))
+        fig2, ax2 = plt.subplots(figsize=(12, 6))
+        shap.summary_plot(shap_values, X_test, feature_names=list(X.columns), plot_type="bar")
+        ax2.set_title("SHAP Mean Value Bar Chart (XGBoost)")
         st.pyplot(fig2)
-        st.markdown(get_image_download_link(fig2, "shap_force_plot"), unsafe_allow_html=True)
+        st.markdown(get_image_download_link(fig2, "shap_mean_bar"), unsafe_allow_html=True)
         plt.close(fig2)
     
     elif selected_analysis == "Combined Actual vs Predicted":
